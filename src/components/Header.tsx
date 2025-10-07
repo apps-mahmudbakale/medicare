@@ -49,7 +49,7 @@ const Header = () => {
         Log In
       </a>
       <a
-        href="/signup"
+        href="https://app.medicareemedicine.com/register"
         className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200"
       >
         Sign Up
