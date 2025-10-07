@@ -102,6 +102,24 @@ const About = () => {
           </p>
         </FadeIn>
 
+        {/* Vision & Mission Section */}
+        <FadeIn className="mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-blue-50 shadow-sm">
+              <h3 className="text-xl font-bold text-blue-700 mb-2">VISION</h3>
+              <p className="text-gray-700">
+                Our vision is to revolutionize healthcare by providing accessible, high-quality medical services to individuals everywhere through innovative technology.
+              </p>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-blue-50 shadow-sm">
+              <h3 className="text-xl font-bold text-blue-700 mb-2">MISSION</h3>
+              <p className="text-gray-700">
+                Our mission is to deliver convenient, patient-centered healthcare through cutting-edge telemedicine technology.
+              </p>
+            </div>
+          </div>
+        </FadeIn>
+
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
@@ -145,7 +163,15 @@ const About = () => {
                   professionals across various medical fields. Whether you need a routine check-up, 
                   specialist consultation, or follow-up care, our platform makes it easy to get 
                   the care you need without the wait times or travel.
-                </p>  
+                </p>
+                <div className="mt-6 bg-blue-50/60 rounded-xl p-4 border border-blue-100">
+                  <p className="text-blue-700 font-semibold mb-2">
+                    With Medicare Telemedicine, you don’t have to wait in long hospital queues or travel far for care. We bring the doctor’s office into your pocket.
+                  </p>
+                  <p className="text-blue-900 font-bold text-lg">
+                    Medicare Telemedicine – Your Health. Anywhere. Anytime.
+                  </p>
+                </div>
               </div>
             </div>
             
