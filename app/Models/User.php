@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser, HasTenants, MustVerifyEmail
@@ -22,6 +23,17 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     use HasFactory;
 
     use Notifiable;
+
+    /**
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'password',
+        'account_type',
+    ];
 
     /**
      * @var list<string>
@@ -53,4 +65,20 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     {
         return Team::all();
     }
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
+
+    protected function setPasswordAttribute($value)
+    {
+        if (! empty($value)) {
+            // Hash only if it needs hashing
+            $this->attributes['password'] = Hash::needsRehash($value)
+                ? Hash::make($value)
+                : $value;
+        }
+    }
 }
+

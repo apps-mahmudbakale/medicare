@@ -13,12 +13,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PatientResource extends Resource
 {
     protected static ?string $model = Patient::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema
     {
@@ -28,6 +29,13 @@ class PatientResource extends Resource
     public static function table(Table $table): Table
     {
         return PatientsTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Only load patients whose user has account_type = 'patient'
+        return parent::getEloquentQuery()
+            ->whereHas('user', fn ($q) => $q->where('account_type', 'patient'));
     }
 
     public static function getRelations(): array
