@@ -71,6 +71,16 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
         return $this->hasOne(Patient::class);
     }
 
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
+
+    public function hospital()
+    {
+        return $this->hasOne(Hospital::class);
+    }
+
     protected function setPasswordAttribute($value)
     {
         if (! empty($value)) {

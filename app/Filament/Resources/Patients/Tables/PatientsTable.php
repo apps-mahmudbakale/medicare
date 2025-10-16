@@ -13,7 +13,7 @@ class PatientsTable
     {
         return $table
             ->columns([
-                //
+                
             ])
             ->filters([
                 //

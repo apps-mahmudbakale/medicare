@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Patient extends Model
+class Hospital extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,28 +17,25 @@ class Patient extends Model
      */
     protected $fillable = [
         'user_id',
-        'date_of_birth',
-        'gender',
+        'facility_name',
+        'registration_number',
+        'institution_type',
+        'phone',
+        'email',
+        'website',
+        'contact_person',
+        'contact_person_phone',
+        'contact_person_email',
         'address',
-        'emergency_contact_name',
-        'emergency_contact_phone',
-        'blood_group',
-        'blood_genotype',
-        'marital_status',
-        'occupation',
-        'nationality',
-        'state_of_origin',
-        'lga',
-        'religion',
         'city',
         'state',
         'country',
-        'known_allergies',
-        'medical_history',
-        'nhis_number',
-        'hmo_information',
-        'profile_photo_path',
-        'is_active',
+        'capacity',
+        'number_of_doctors',
+        'facilities_available',
+        'description',
+        'logo_path',
+        'is_approved',
     ];
 
     /**
@@ -47,13 +44,22 @@ class Patient extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'date_of_birth' => 'date',
-        'is_active' => 'boolean',
+        'capacity' => 'integer',
+        'number_of_doctors' => 'integer',
+        'facilities_available' => 'array',
+        'is_approved' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
 
     /**
-     * Get the user that owns the patient.
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = ['full_address'];
+
+    /**
+     * Get the user that owns the hospital.
      */
     public function user()
     {
@@ -61,7 +67,7 @@ class Patient extends Model
     }
 
     /**
-     * Get the patient's full address.
+     * Get the hospital's full address.
      */
     public function getFullAddressAttribute()
     {
@@ -73,5 +79,13 @@ class Patient extends Model
         ];
 
         return implode(', ', array_filter($address));
+    }
+
+    /**
+     * Scope a query to only include approved hospitals.
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('is_approved', true);
     }
 }
