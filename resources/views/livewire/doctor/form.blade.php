@@ -77,6 +77,30 @@
                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
                 </div>
 
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 mb-2">Clinical Days</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                        @php
+                            $days = [
+                                'monday' => 'Monday',
+                                'tuesday' => 'Tuesday',
+                                'wednesday' => 'Wednesday',
+                                'thursday' => 'Thursday',
+                                'friday' => 'Friday',
+                                'saturday' => 'Saturday',
+                                'sunday' => 'Sunday'
+                            ];
+                        @endphp
+                        @foreach($days as $key => $day)
+                            <label class="flex items-center">
+                                <input type="checkbox" name="clinical_days[]" value="{{ $key }}" 
+                                       class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <span class="ml-2 text-gray-700 dark:text-gray-300">{{ $day }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 mb-1">Password</label>

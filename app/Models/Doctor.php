@@ -28,6 +28,7 @@ class Doctor extends Model
         'bio',
         'profile_photo_path',
         'is_available',
+        'clinical_days',
     ];
 
     /**
@@ -39,6 +40,7 @@ class Doctor extends Model
         'experience_years' => 'integer',
         'consultation_fee' => 'decimal:2',
         'is_available' => 'boolean',
+        'clinical_days' => 'array',
         'email_verified_at' => 'datetime',
     ];
 

@@ -55,6 +55,8 @@ class RegisterController extends Controller
             'experience_years' => 'nullable|integer|min:0',
             'affiliation' => 'nullable|string|max:255',
             'address' => 'required|string',
+            'clinical_days' => 'required|array|min:1',
+            'clinical_days.*' => 'in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -76,6 +78,7 @@ class RegisterController extends Controller
                 'address' => $validated['address'],
                 'phone' => $validated['phone'],
                 'is_available' => true,
+                'clinical_days' => $validated['clinical_days'],
             ]);
 
             auth()->login($user);
