@@ -22,7 +22,7 @@
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">Healthcare Institution Registration</h1>
                 <p class="text-gray-600 dark:text-gray-300">Register your facility to manage staff, patients, and digital health services.</p>
             </div>
-            <form action="/register-hospital" method="POST" class="space-y-6">
+            <form action="{{route('register.hospital')}}" method="POST" class="space-y-6">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

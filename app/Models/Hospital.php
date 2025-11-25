@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Hospital extends Model
 {
@@ -16,26 +17,14 @@ class Hospital extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'facility_name',
         'registration_number',
         'institution_type',
         'phone',
         'email',
-        'website',
         'contact_person',
-        'contact_person_phone',
-        'contact_person_email',
         'address',
-        'city',
-        'state',
-        'country',
         'capacity',
-        'number_of_doctors',
-        'facilities_available',
-        'description',
-        'logo_path',
-        'is_approved',
     ];
 
     /**
@@ -64,6 +53,14 @@ class Hospital extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get all services for the hospital.
+     */
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
     }
 
     /**

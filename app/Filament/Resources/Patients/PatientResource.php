@@ -34,8 +34,7 @@ class PatientResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         // Only load patients whose user has account_type = 'patient'
-        return parent::getEloquentQuery()
-            ->whereHas('user', fn ($q) => $q->where('account_type', 'patient'));
+        return parent::getEloquentQuery();
     }
 
     public static function getRelations(): array

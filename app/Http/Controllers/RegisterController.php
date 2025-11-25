@@ -46,39 +46,32 @@ class RegisterController extends Controller
      */
     public function registerDoctor(Request $request)
     {
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string|max:20',
-            'license_number' => 'required|string|max:100|unique:doctors',
-            'specialization' => 'required|string|max:255',
-            'experience_years' => 'nullable|integer|min:0',
-            'affiliation' => 'nullable|string|max:255',
-            'address' => 'required|string',
-            'clinical_days' => 'required|array|min:1',
-            'clinical_days.*' => 'in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        return DB::transaction(function () use ($request) {
 
-        return DB::transaction(function () use ($validated) {
-            // Create user
             $user = User::create([
-                'name' => $validated['full_name'],
-                'email' => $validated['email'],
-                'phone' => $validated['phone'],
-                'password' => Hash::make($validated['password']),
+                'name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => Hash::make($request->password),
             ]);
 
-            // Create doctor profile
+            $profilePicturePath = null;
+
+            if ($request->hasFile('profile_picture')) {
+                $profilePicturePath = $request->file('profile_picture')
+                    ->store('profile-pictures', 'public');
+            }
+
             $user->doctor()->create([
-                'license_number' => $validated['license_number'],
-                'specialization' => $validated['specialization'],
-                'experience_years' => $validated['experience_years'] ?? 0,
-                'affiliation' => $validated['affiliation'] ?? null,
-                'address' => $validated['address'],
-                'phone' => $validated['phone'],
+                'license_number' => $request->license_number,
+                'specialization' => $request->specialization,
+                'experience_years' => $request->experience_years,
+                'affiliation' => $request->affiliation,
+                'address' => $request->address,
+                'phone' => $request->phone,
                 'is_available' => true,
-                'clinical_days' => $validated['clinical_days'],
+                'clinical_days' => $request->clinical_days,
+                'profile_picture' => $profilePicturePath,
             ]);
 
             auth()->login($user);
@@ -87,6 +80,7 @@ class RegisterController extends Controller
                 ->with('success', 'Doctor registration successful!');
         });
     }
+    
 
     /**
      * Handle patient registration.
@@ -146,8 +140,6 @@ class RegisterController extends Controller
             'capacity' => 'nullable|integer|min:0',
             'address' => 'required|string',
             'contact_person' => 'required|string|max:255',
-            'contact_person_phone' => 'required|string|max:20',
-            'contact_person_email' => 'nullable|email',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -157,7 +149,6 @@ class RegisterController extends Controller
                 'name' => $validated['facility_name'],
                 'email' => $validated['email'],
                 'phone' => $validated['phone'],
-                'account_type' => 'hospital',
                 'password' => Hash::make($validated['password']),
             ]);
 
@@ -170,10 +161,7 @@ class RegisterController extends Controller
                 'email' => $validated['email'],
                 'address' => $validated['address'],
                 'contact_person' => $validated['contact_person'],
-                'contact_person_phone' => $validated['contact_person_phone'],
-                'contact_person_email' => $validated['contact_person_email'] ?? null,
                 'capacity' => $validated['capacity'] ?? 0,
-                'is_approved' => false, // Default to false, admin needs to approve
             ]);
 
             // Log the user in
