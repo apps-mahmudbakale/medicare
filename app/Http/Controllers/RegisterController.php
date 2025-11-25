@@ -80,7 +80,7 @@ class RegisterController extends Controller
                 ->with('success', 'Doctor registration successful!');
         });
     }
-    
+
 
     /**
      * Handle patient registration.
